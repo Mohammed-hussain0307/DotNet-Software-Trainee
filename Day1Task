@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DemoPractice
+{
+    internal class DayOneTraining
+    {
+       int num = int.Parse(Console.ReadLine());
+
+        static void Main(string[] args)
+        {
+
+            //starpattern program with user input            
+            DayOneTraining c = new DayOneTraining();
+
+            for (int i = 0; i < c.num; i++)
+            {
+                for (int j = 0; j <= i; j++)
+                {
+                    Console.Write("*");
+                }
+                Console.WriteLine();
+
+            }
+
+            //reverse string value
+            String name = Console.ReadLine();
+
+            for (int i = name.Length - 1; i >= 0; i--)
+            {
+                Console.Write(name.ElementAt(i));
+            }
+
+            Console.WriteLine();
+
+            //find the string character
+            string[] name1 = { "Hussain", "Ipu", "Jaba", "Magesh", "Musthafa" };
+
+            for (int i = 0; i < name1.Length; i++)
+            {
+
+                int charCount = 0;
+
+                for (int j = 0; j < name1[i].Length; j++)
+                {
+                    charCount++;
+                }
+
+                Console.WriteLine(name1[i] + ": " + charCount);
+            }
+
+            //Guess the Random number
+            Random random = new Random();
+            int number = random.Next(1, 101);
+            Console.WriteLine(number);
+
+            int userGuess = 0;
+
+            while (userGuess != number)
+            {
+
+                Console.WriteLine("Enter your choice for guess the number");
+                String userGues = Console.ReadLine();
+                userGuess = int.Parse(userGues);
+
+                if (userGuess < number)
+                {
+                    Console.WriteLine("Too low try again");
+                }
+                else if (userGuess > number)
+                {
+                    Console.WriteLine("Too high try again");
+                }
+                else
+                {
+                    Console.WriteLine("congrats your guessing is correct");
+                    break;
+                }
+
+            }
+
+        }        
+    }
+}
