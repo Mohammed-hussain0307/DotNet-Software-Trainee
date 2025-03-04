@@ -1,0 +1,161 @@
+using DayTwoTaining;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace DayTwoTraining
+{ 
+
+//product class for type with categories and display the items
+class Product
+{
+   public int id { get; set; }
+   public string name { get; set; }
+   public double price { get; set; }
+   public int quantity { get; set; }
+
+    public void Display()
+    {
+        Console.WriteLine("Id: " + id + ", " + " Name: " + name + ", " + " Price " + price + ", " + " Quantity " + quantity);
+    }
+
+}
+
+//Shopping cart class for add, remove, view and checkout purpose
+class ShoppingCart
+{
+    private List<Product> products = new List<Product>();
+
+    public void AddProduct(Product product)
+    {
+        products.Add(product);
+    }
+    public void RemoveProduct(int productId)
+    {
+
+        var removeItem = products.FirstOrDefault(x => x.id == productId);
+
+        if (removeItem != null)
+        {
+            products.Remove(removeItem);
+        }
+    }
+
+    public void DisplayCart()
+    {
+        Console.WriteLine("Ordered Items");
+
+        foreach(var product in products)
+        {
+            product.Display();
+        }
+    }
+
+    public double CheckoutTotal()
+    {
+        return products.Sum(s => s.price * s.quantity);
+    }
+}
+
+    //Main class
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Product> products = new List<Product>
+            {
+                new Product{id=101,name="Lenovo Laptop",price=48000.00,quantity=2},
+                new Product{id=102,name="Apple 13 pro", price=70000.00,quantity=3},
+                new Product{id=103,name="Samsung s24 ultra",price=55000.00,quantity=1}
+            };
+
+            bool check = true;
+            ShoppingCart shopping = new ShoppingCart();
+
+            while (check)
+            {
+                Console.WriteLine("1.View Products");
+                Console.WriteLine("2.Add to Cart");
+                Console.WriteLine("3.View Cart");
+                Console.WriteLine("4.Remove from Cart");
+                Console.WriteLine("5.Checkout");
+                Console.WriteLine("6.Exit");
+
+                Console.WriteLine("Please Enter Your Choice");
+                String user = Console.ReadLine();
+
+                switch (user)
+                {
+                    case "1":
+                        foreach(var product in products)
+                        {
+                            product.Display();
+                        }
+                    break;
+
+                    case "2":
+                        Console.WriteLine("Enter Product ID");
+                        int productId;
+                        int quantity;
+                        try
+                        {
+                            productId = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Enter Product Quantity");
+                            quantity = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex+"Enter valid ID!!");
+                            break;
+                        }
+
+                        var itemId = products.FirstOrDefault(p => p.id == productId && p.quantity >= quantity);
+                        if (itemId != null)
+                        {
+                            itemId.quantity = quantity;
+                            shopping.AddProduct(itemId);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Check the quantity or ID"); 
+                        }
+                            break;
+
+                    case "3":
+                        shopping.DisplayCart();
+                    break;
+
+                    case "4":
+                        Console.WriteLine("Enter Product ID");
+                        int productId1;
+                        try
+                        {
+                            productId1 = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex+"Enter valid ID!!");
+                            break;
+                        }
+                        shopping.RemoveProduct(productId1);
+                    break;
+
+                    case "5":
+                        shopping.DisplayCart();
+                        Console.WriteLine("Total Price: "+shopping.CheckoutTotal());
+
+                    break;
+
+                    case "6":
+                        check = false;
+                    break;
+
+                    default:
+                        Console.WriteLine("Enter valid input");
+                    break;
+                }
+            }
+
+        }
+    }
+}
