@@ -1,0 +1,39 @@
+CREATE DATABASE students;
+USE students;
+
+CREATE TABLE student(s_no int IDENTITY PRIMARY KEY,roll_no int UNIQUE NOT NULL, name varchar(20) NOT NULL, department varchar(20) NOT NULL, grade char(1),university varchar(50));
+
+INSERT INTO student VALUES(2705,'Ibrahim','ME','O','Anna University'),
+						  (2706,'Mustafa','CSE','A','Anna Universsity'),
+						  (2707,'Magesh','ECE','A','Manonmaniam University');
+
+INSERT INTO student	VALUES(1101,'Vasanth','EEE','B','Manonmaniam Uniersity'),
+						  (1102,'Hussain','CSE','C','Manonmaniam Uniersity'),
+						  (1103,'Ithris','EEE','B','Anna University'),
+						  (1104,'Bala','CE','C','Anna University');
+--ALTER TABLE student ADD university varchar(50);
+
+ALTER TABLE student ADD CHECK (roll_no<9999);
+
+-- INSERT INTO student	VALUES(11011,'Vasantha','EEE','B','Manonmaniam Uniersity');
+
+SELECT * FROM student WHERE grade='B';
+
+CREATE VIEW [university details] AS SELECT name,university FROM student WHERE grade='A';
+
+DROP VIEW [university details];
+
+SELECT * FROM [university details];
+
+SELECT * FROM student ORDER BY name;
+SELECT * FROM student ORDER BY name DESC;
+
+DELETE student WHERE roll_no=1102;
+
+SELECT * FROM student;
+
+TRUNCATE TABLE student;
+
+DROP TABLE student;
+
+SELECT name,grade FROM student WHERE grade IS NOT NULL;
