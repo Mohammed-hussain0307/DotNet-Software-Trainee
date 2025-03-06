@@ -17,3 +17,116 @@ EXEC sp_rename 'student_details.father_no','fatherNumber','COLUMN';
 DELETE FROM student_details where student_id IN (105,106);
 
 SELECT * FROM student_details;
+
+
+CREATE DATABASE employee;
+USE employee;
+
+CREATE TABLE employee(
+		employee_id INT PRIMARY KEY,
+		employee_name VARCHAR(30) NOT NULL,
+		designation VARCHAR(30) NOT NULL,
+		salary DECIMAL
+	);
+
+CREATE TABLE employee_details(
+		employee_id INT,
+		mobileNumber BIGINT NOT NULL,
+		year_of_experience INT NOT NULL,
+		company_name VARCHAR(30) NOT NULL,
+		FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+INSERT INTO employee VALUES(5761,'Kumar','Developer',25000.00),
+						   (5762,'Hussain','Developer',25000.00),
+						   (5763,'Musthafa','Testing',30000.00),
+						   (5782,'Magesh','Support',28000.00),
+						   (5723,'vasanth','Admin',26000.00);
+
+INSERT INTO employee_details VALUES(5761,9715342765,2,'Claysis'),
+						   (5762,9043567645,2,'Claysis');
+
+SELECT * FROM employee_details;
+
+SELECT employee_name,designation,year_of_experience,company_name from employee
+RIGHT JOIN employee_details 
+ON employee.employee_id=employee_details.employee_id
+ORDER BY year_of_experience;
+
+SELECT employee_name,mobileNumber FROM employee
+LEFT JOIN employee_details
+ON employee.employee_id=employee_details.employee_id;
+
+SELECT employee_name,designation,year_of_experience,salary,company_name FROM employee 
+INNER JOIN employee_details 
+ON employee.employee_id=employee_details.employee_id;
+
+SELECT designation,COUNT(designation) FROM employee 
+GROUP BY designation;
+
+SELECT* FROM employee 
+WHERE salary = (SELECT MAX(salary) FROM employee 
+WHERE salary <(SELECT MAX(salary) FROM employee));
+
+SELECT * FROM employee;
+
+
+-- STORE PROCEDURE CONCEPTS
+
+USE employee
+
+CREATE TABLE employee_store_procedure(
+		employee_id INT PRIMARY KEY,
+		employee_name VARCHAR(30) NOT NULL,
+		designation VARCHAR(30) NOT NULL,
+		salary DECIMAL
+	);
+
+INSERT INTO employee_store_procedure VALUES(5761,'Kumar','Developer',25000.00),
+						   (5762,'Hussain','Developer',25000.00),
+						   (5763,'Musthafa','Testing',30000.00),
+						   (5782,'Magesh','Support',28000.00),
+						   (5723,'vasanth','Admin',26000.00);
+
+CREATE PROCEDURE SPR_Employee
+AS
+SELECT * FROM employee_store_procedure
+GO;
+
+EXEC SPR_Employee;
+
+DROP PROCEDURE SP_editEmployee;
+
+ALTER PROCEDURE SPU_Employee @designation VARCHAR(20)
+AS
+BEGIN
+UPDATE  employee_store_procedure SET designation='Dot Net Developer'
+WHERE designation = @designation
+END;
+GO
+
+EXEC SPU_Employee @designation = 'developer';
+
+ALTER PROCEDURE SPD_Employee @employeeName VARCHAR(20)
+AS
+BEGIN
+DELETE FROM employee_store_procedure WHERE employee_name=@employeeName
+END;
+GO
+
+DELETE FROM employee WHERE employee_name='kumar';
+
+EXEC SPD_Employee @employeeName='kumar';
+
+INSERT INTO employee_store_procedure VALUES(5761,'Kumar','Developer',25000.00);
+
+-- SINGLE STORE PROCEDURE METHOD
+CREATE PROCEDURE SPS_Employee @salary DECIMAL
+AS
+BEGIN
+SELECT * FROM employee_store_procedure WHERE salary > @salary
+SELECT * FROM employee_store_procedure
+END;
+GO
+
+EXEC SPS_Employee @salary = 26000;
