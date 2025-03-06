@@ -1,0 +1,19 @@
+USE students;
+
+CREATE TABLE student_details(student_id int PRIMARY KEY, student_name varchar(20) NOT NULL,mobile_no bigint UNIQUE NOT NULL, 
+							father_name varchar(20), father_no bigint UNIQUE,dob date NOT NULL, mail_id varchar(50) UNIQUE NOT NULL, 
+							blood_group varchar(5), department varchar(10) NOT NULL,year_of_join char(4) CHECK(2005 <= 2025) NOT NULL);
+
+INSERT INTO student_details VALUES(101,'Hussain',9042983748,'Mohammed',9715342435,'2000-03-07','hussain7272@gmail.com','O+','CSE',2017),
+								   (102,'Ibrahim',9034567234,'Sheik',7373009854,'2000-05-27','ibu005@gmail.com','O+','ME',2017),
+								   (103,'Magesh',7370864753,'Muthu',6369456734,'2001-12-02','magesh73@gmail.com','A-','CSE',2018);
+INSERT INTO student_details VALUES(105,'Musthafa',9543627665,'Divan',8956784536,'2002-05-10','musthafa2002@gmail.com','A+','EEE',2019),
+								  (106,'Madhan',6367456351,'Manikkam',9090905345,'2003-10-10','madhanmani@gmail.com','AB+','ECE',2020);
+
+UPDATE student_details SET mobile_no = 9023896545 WHERE student_id = 101;
+
+EXEC sp_rename 'student_details.father_no','fatherNumber','COLUMN';	
+
+DELETE FROM student_details where student_id IN (105,106);
+
+SELECT * FROM student_details;
