@@ -1,0 +1,520 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class FindEvenLambda
+    {
+        public static void EvenNumber()
+        {
+            //create list to store collection of value
+            List<int> list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            //find even number using lambda
+            var findEven = list.Where(n => n % 2 == 0);
+
+            //print the even value
+            foreach(var even in findEven)
+            {
+                Console.WriteLine(even);
+            }
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class Product
+    {
+        public string PropertiesName { get; set; }
+        public string Category { get; set; }
+        public double Price { get; set; }
+
+        //for display the result
+        public override string ToString()
+        {
+            return "PropertyName= "+PropertiesName+" Category= "+Category+" Price= "+Price;
+        }
+    }
+    class LinqPractice
+    {
+        public static void Prod()
+        {
+            List<Product> list = new List<Product>(){
+                new Product { PropertiesName = "Laptop", Category = "Electronics", Price = 1000.00 },
+                new Product { PropertiesName = "Phone", Category = "Electronics", Price = 500.00 },
+                new Product { PropertiesName = "Shirt", Category = "Clothing", Price = 30.00 },
+                new Product { PropertiesName = "Jeans", Category = "Clothing", Price = 50.00 },
+                new Product { PropertiesName = "Tablet", Category = "Electronics", Price = 300.00 }
+            };
+
+            //linq grouping
+            var groupProduct = list.GroupBy(g => g.Category);
+            foreach(var category in groupProduct)
+            {
+                Console.WriteLine("Category: " + category.Key);
+                foreach(var product in category)
+                {
+                    Console.WriteLine(product.PropertiesName+" "+product.Price);
+                }
+            }
+
+            //linq ordering
+            var orderProduct = list.OrderBy(o => o.PropertiesName);
+            foreach(var order in orderProduct)
+            {
+                Console.WriteLine(order);
+            }
+
+            //linq Projections
+            var projection = list.Select(s => s.PropertiesName +" "+ s.Price);
+            foreach(var product in projection)
+            {
+                Console.WriteLine(product);
+            }
+
+            //find the specific category using linq
+            var specificCategory = list.Where(c => c.Category.Equals("Clothing"));
+            foreach(var categor in specificCategory)
+            {
+                Console.WriteLine(categor);
+            }
+
+            //find the average price
+            var averagePrice = list.Average(a => a.Price);
+            Console.WriteLine(averagePrice);
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class TryCatchTask
+    {
+        public static void Division()
+        {
+            //use try catch to handle the exception
+            try
+            {
+                int a = 10;
+                int b = 0;
+                int c = a / b;
+            }
+            catch (DivideByZeroException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+    }
+}
+
+using System;
+using System.CodeDom;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class ArithmeticOperator
+    {
+        //for addition operator with integer type
+        public int Addition(int a,int b)
+        {
+            return a + b;
+        }
+
+        //for subraction operator with integer
+        public int Subraction(int a,int b)
+        {
+            return a - b;
+        }
+
+        //for multiplication operator with integer
+        public int Multiplication(int a,int b)
+        {
+            return a * b;
+        }
+
+        //for division operator with double
+        public double Division(double a, double b)
+        {
+                return a / b;
+        }
+
+        //all methods are calling inside this single method
+        public void Operators()
+        {
+            Console.WriteLine(Addition(10,20)+"\n"+Subraction(15,5)+"\n"+Multiplication(5,6)+"\n"+Division(11,2));
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class AsyncAwiatTask
+    {
+        public static void demo()
+        {
+            for (int i=1;i<=5;i++)
+            {
+                Console.WriteLine("Testing");
+                Task.Delay(1000).Wait();
+            }
+        }
+
+        //Using await and async
+        public static async Task SyncDemo()
+        {
+            await Task.Run(async () =>
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    Console.WriteLine("Another Testing");
+                    Task.Delay(500).Wait();
+                }
+            });
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    interface ILogging
+    {
+        void LogInfo(string message);
+        void LogWarning(string message);
+        void LogError(string message);
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining.ILoggerMechanism
+{
+    //create console logger class with implement ilogger interface
+    class ConsoleLogger:ILogging
+    {
+        //implement the all functinality from interface
+        public void LogInfo(string message)
+        {
+            Console.WriteLine("ConsoleLoggerInfo: " + message);
+        }
+        public void LogWarning(string message)
+        {
+            Console.WriteLine("ConsoleLoggerWarning: " + message);
+        }
+        public void LogError(string message)
+        {
+            Console.WriteLine("ConsoleLoggerError: " + message);
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining.ILoggerMechanism
+{
+    //create filelogger class with ilogging interface
+    class FileLogger :ILogging
+    {
+        //implement the all functionality from ilogging interface
+        public void LogInfo(string message)
+        {
+            Console.WriteLine("FileLoggerInfo: " + message);
+        }
+        public void LogWarning(string message)
+        {
+            Console.WriteLine("FileLoggerWarning: " + message);
+        }
+        public void LogError(string message)
+        {
+            Console.WriteLine("FileLoggerError: " + message);
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining.ILoggerMechanism
+{
+    class InjectDependancy
+    {
+        //create object reference to ilogging interface
+        private readonly ILogging logging;
+
+        //assign the object through constructor
+        public InjectDependancy(ILogging logging)
+        {
+            this.logging = logging;
+        }
+
+        public void Run()
+        {
+            logging.LogInfo("Application started.");
+            logging.LogWarning("This is a warning message.");
+            logging.LogError("An error occurred in the application.");
+        }
+    }
+
+    class LoggerApplication
+    {
+        public static void Application()
+        {
+            //assigned null values to ilogging reference
+            ILogging logging = null;
+
+            Console.WriteLine("Choose one option: \n1:ConsoleLogger\n2:FileLogger");
+            int choice = Convert.ToInt32(Console.ReadLine());
+
+            //assign the object to the logging for acheive loose coupling
+            if (choice == 1)
+            {
+                logging = new ConsoleLogger();
+            }
+            else if(choice == 2)
+            {
+                logging = new FileLogger();
+            }
+            else
+            {
+                Console.WriteLine("Invalid! enter only 1 or 2");
+            }
+
+            InjectDependancy injectDependancy = new InjectDependancy(logging);
+            injectDependancy.Run();
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class Delegates
+    {
+        public delegate int DelegateDemo(int num1,int num2);
+        public static int Addition(int a, int b)
+        {
+            return a + b;
+        }
+        public static int Subraction(int a, int b)
+        {
+            return a + b;
+        }
+        public static int Multiplication(int a, int b)
+        {
+            return a + b;
+        }
+        public static int Division(int a, int b)
+        {
+            return a + b;
+        }
+        public static void Calculator()
+        {
+            DelegateDemo delegateAdd = new DelegateDemo(Addition);
+            DelegateDemo delegateSub = new DelegateDemo(Subraction);
+            DelegateDemo delegateMul = new DelegateDemo(Multiplication);
+            DelegateDemo delegateDiv = new DelegateDemo(Division);
+            Console.WriteLine(delegateAdd(10, 20));
+            Console.WriteLine(delegateSub(30, 15));
+            Console.WriteLine(delegateMul(10, 5));
+            Console.WriteLine(delegateDiv(40, 8));
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class Stack<T>
+    {
+        List<T> list = new List<T>();
+        public void Push(T value)
+        {
+            list.Add(value);
+        }        
+        public void Pop()
+        {
+            Console.WriteLine(list[list.Count - 1]);
+            list.RemoveAt(list.Count - 1);
+        }
+        public void Peek()
+        {
+            Console.WriteLine(list[list.Count - 1]);
+        }
+    }
+    class StudentManagement
+    {
+        public static void Student()
+        {
+            Stack<int> rollNo = new Stack<int>();
+            rollNo.Push(121);
+            rollNo.Push(122);
+            rollNo.Push(123);
+            rollNo.Push(124);
+            rollNo.Pop();
+            rollNo.Peek();
+
+            Stack<String> name = new Stack<string>();
+            name.Push("Hussain");
+            name.Push("Ibu");
+            name.Push("Magesh");
+            name.Push("Musthaa");
+            name.Pop();
+            name.Peek();
+        }
+    }
+}
+
+using DayFiveTraining.ILoggerMechanism;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DayFiveTraining
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ArithmeticOperator arithmeticOperator = new ArithmeticOperator();
+            arithmeticOperator.Operators();
+
+            TryCatchTask.Division();
+
+            Delegates.Calculator();
+
+            StudentManagement.Student();
+
+            FindEvenLambda.EvenNumber();
+
+            LinqPractice.Prod();
+
+            AsyncAwiatTask.SyncDemo();
+            AsyncAwiatTask.demo();
+
+            LoggerApplication.Application();
+        }
+    }
+}
+
+----------------------------------------SQL Task--------------------------------------------------
+
+CREATE DATABASE bussiness;
+use bussiness;
+
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    product_id INT,
+    quantity_sold INT,
+    sale_date DATE,
+    total_price DECIMAL(10, 2)
+);
+
+INSERT INTO sales (sale_id, product_id, quantity_sold, sale_date, total_price) VALUES
+(1, 101, 5, '2025-01-01', 2500.00),
+(2, 102, 3, '2025-01-02', 900.00),
+(3, 103, 2, '2025-01-02', 60.00),
+(4, 104, 4, '2025-01-03', 80.00),
+(5, 105, 6, '2025-01-03', 90.00);
+
+SELECT sale_id,product_id,total_price FROM sales WHERE quantity_sold > 4;
+
+SELECT sale_date, COUNT(*) AS sale_count 
+FROM sales GROUP BY sale_date;
+
+SELECT SUM(quantity_sold) AS total_sold FROM sales;
+
+SELECT SUM(total_price) AS total_revenue FROM sales;
+
+SELECT sale_id,total_price FROM sales WHERE sale_date = '2024-01-03';
+
+SELECT * FROM sales;
+
+SELECT sale_id,sale_date FROM sales;
+
+SELECT * FROM sales WHERE total_price > 100;
+
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    category VARCHAR(50),
+    unit_price DECIMAL(10, 2)
+);
+
+INSERT INTO products (product_id, product_name, category, unit_price) VALUES
+(101, 'Laptop', 'Electronics', 500.00),
+(102, 'Smartphone', 'Electronics', 300.00),
+(103, 'Tubelight', 'Electricals', 30.00),
+(104, 'Keyboard', 'Electronics', 20.00),
+(105, 'Fan', 'Electricals', 15.00);
+
+SELECT * FROM products;
+
+SELECT SUM(total_price) AS total_revenue 
+FROM sales
+INNER JOIN products ON sales.product_id = products.product_id
+WHERE category='Electronics';
+
+SELECT product_name,unit_price FROM products ORDER BY unit_price;
+
+SELECT product_name,unit_price FROM products 
+WHERE unit_price =(SELECT MAX(unit_price) FROM products);
+
+SELECT AVG(unit_price) AS average_unit_price FROM products;
+
+SELECT product_name,unit_price FROM products;
